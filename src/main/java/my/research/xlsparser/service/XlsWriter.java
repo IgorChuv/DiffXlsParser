@@ -11,25 +11,35 @@ import java.util.*;
 @Service
 public class XlsWriter {
 
-    public static void writeXls(Map<String, List<String>> mapToWrite) {
+    public static void writeXls(Map<String, List<String>> mapToWrite, String firstFilename, String secondFilename) {
         try (XSSFWorkbook workBook = new XSSFWorkbook()) {
-            XSSFSheet sheet = workBook.createSheet("data2");
-            int rows = mapToWrite.size();
+            XSSFSheet sheet = workBook.createSheet("parsed_data");
             List<String> artists = new ArrayList<>(mapToWrite.keySet());
 
-            for (int i = 0; i < rows; i++) {
-                List<String> tracks = mapToWrite.get(artists.get(i));
-                Row row = sheet.createRow(i);
-                Cell cell = row.createCell(0);
-                cell.setCellValue(artists.get(i));
-                for (int j = 1; j < tracks.size() + 1; j++) {
-                    Cell subCell = row.createCell(j);
-                    subCell.setCellValue(tracks.get(j - 1));
+            int rowsCount = 0;
+            Row headerRow = sheet.createRow(rowsCount);
+            Cell firstHeader = headerRow.createCell(0);
+            Cell secondHeader = headerRow.createCell(1);
+            firstHeader.setCellValue("Исполнитель");
+            secondHeader.setCellValue("Трек");
+            rowsCount++;
+
+            for (String artist : artists) {
+                List<String> tracks = mapToWrite.get(artist);
+                for (String track : tracks) {
+                    Row row = sheet.createRow(rowsCount);
+                    rowsCount++;
+                    Cell mainCell = row.createCell(0);
+                    mainCell.setCellValue(artist);
+                    Cell subCell = row.createCell(1);
+                    subCell.setCellValue(track);
                 }
             }
-            FileOutputStream out = new FileOutputStream("result.xlsx");
+
+            FileOutputStream out = new FileOutputStream("Есть в " + firstFilename + " но нет в " + secondFilename + " result.xlsx");
             workBook.write(out);
             out.close();
+
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

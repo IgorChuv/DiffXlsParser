@@ -17,9 +17,8 @@ public class XlsParser {
                 Collectors.mapping(Release::getTrackName, Collectors.toList())));
     }
 
-    public static Map<String, List<String>> areEqualKeyValues(Map<String, List<String>> first, Map<String, List<String>> second) {
+    public static Map<String, List<String>> createDiff(Map<String, List<String>> first, Map<String, List<String>> second) {
         Map<String, List<String>> result = new HashMap<>();
-
 
         for (Map.Entry<String, List<String>> entry : first.entrySet()) {
             if (!second.containsKey(entry.getKey())) {

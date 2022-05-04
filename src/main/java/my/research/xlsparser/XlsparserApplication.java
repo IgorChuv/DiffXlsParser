@@ -17,8 +17,8 @@ public class XlsparserApplication {
 
         SpringApplication.run(XlsparserApplication.class, args);
 
-        File firstFile = new File("src/main/resources/Зайцев.нет.xls");
-        File secondFile = new File("src/main/resources/Мун Рекордс.xls");
+        File firstFile = new File("src/main/resources/Файл1.xls");
+        File secondFile = new File("src/main/resources/Файл2.xls");
 
         Map<String, List<String>> firstParsedXls = XlsParser.parse(firstFile.getPath());
         Map<String, List<String>> secondParsedXls = XlsParser.parse(secondFile.getPath());
